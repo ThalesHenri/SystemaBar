@@ -1,0 +1,38 @@
+# Arquivos do ambiente virtual
+venv/
+.env/
+
+# Arquivos e diretórios Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Arquivos do banco de dados
+*.sqlite3
+
+# Arquivos de migração do Django
+*/migrations/
+migrations/
+
+# Configurações e arquivos sensíveis
+*.env
+*.secret
+.DS_Store
+
+# Arquivos de log
+*.log
+
+# Arquivos de IDEs
+.idea/
+.vscode/
+
+# Arquivos de pacotes
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Arquivos temporários
+*.bak
+*.tmp
