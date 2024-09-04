@@ -24,29 +24,35 @@
 
     <section class="hero">
         <div class="container">
-            <h2>Bem-vindo ao SystemaBar</h2>
+            {% block title %}<h2>Bem-vindo ao SystemaBar</h2>
             <p>O melhor sistema para gerenciar seu bar ou restaurante.</p>
-            <a href="#" class="btn-primary">Explorar Cardápio</a>
+            <a href="#" class="btn-primary">Começar</a>{% endblock title %}
         </div>
     </section>
 
     <section class="features">
         <div class="container">
-            <h3>Nossas Funcionalidades</h3>
+            {% block contentTitle %} <h3>Nossas Funcionalidades</h3> {% endblock contentTitle %}
+            {% block content %}
             <div class="features-grid">
                 <div class="feature-item">
-                    <h4>Gestão Simplificada</h4>
-                    <p>Organize pedidos e controle o fluxo do seu bar com facilidade.</p>
+                    <h4>Administrador</h4>
+                    <p>Gerencie o estoque e monitore o fluxo do seu bar com facilidade.</p>
+                    <a href="{% url "administradorLogin" %}" class="btn-primary" style="position: relative; top: 30px;
+">Acessar</a>
                 </div>
                 <div class="feature-item">
-                    <h4>Cardápio Digital</h4>
-                    <p>Apresente seu cardápio de forma atraente e interativa.</p>
+                    <h4>Cozinha</h4>
+                    <p>Processe os pedidos de uma forma intuitiva.</p>
+                    <a href="#" class="btn-primary" style="position: relative; top: 30px;">Acessar</a>
                 </div>
                 <div class="feature-item">
-                    <h4>Atendimento Rápido</h4>
-                    <p>Garanta agilidade no atendimento e satisfação dos clientes.</p>
+                    <h4>Atendentes</h4>
+                    <p>Gere os pedidos e garanta uma melhor satisfação dos clientes.</p>
+                    <a href="#" class="btn-primary" style="position: relative; top: 30px;">Acessar</a>
                 </div>
             </div>
+            {% endblock content %}
         </div>
     </section>
 

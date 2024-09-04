@@ -5,7 +5,7 @@ from django.db import models
 
 class AdminModel(models.Model):
     usuario = models.CharField(max_length=100)
-    bemail = models.EmailField(unique=True)
+    email = models.EmailField(unique=True)
     senha  = models.CharField(max_length=100)
     
     

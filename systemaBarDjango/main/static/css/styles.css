@@ -17,7 +17,6 @@ body {
     margin: 0 auto;
     max-width: 1200px;
 }
-
 /* Estilo do cabeçalho */
 .header {
     background-color: #333;
@@ -64,14 +63,28 @@ body {
 .hero h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
+    color: black;
 }
 
 .hero p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
+    color: black;
+}
+button {
+    padding: 10px;
+    background-color: #f4b400;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.hero .btn-primary {
+button:hover {
+    background-color: #e09c00;
+}
+
+.btn-primary {
     background-color: #f4b400;
     color: #333;
     padding: 0.75rem 1.5rem;
@@ -81,8 +94,11 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.hero .btn-primary:hover {
+
+.btn-primary:hover {
     background-color: #e09c00;
+    position: relative; top: -2px;
+    transition: 2s;
 }
 
 /* Estilo da seção de funcionalidades */
@@ -109,6 +125,8 @@ body {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 250px;
+    margin-bottom: 2rem;
 }
 
 .feature-item h4 {
