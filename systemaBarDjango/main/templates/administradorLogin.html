@@ -6,6 +6,7 @@
         <div class="feature-tiem">
             <form action="/administradorLoginEvent/" method="POST">
                 {% csrf_token %}
+                {{ form.as_p}}
                 <button type="submit" class="btn_primary">Enviar</button>
             </form>
             <a href="/cadastrarAdministrador/">Ainda não tenho uma conta</a>

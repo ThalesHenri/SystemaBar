@@ -7,3 +7,9 @@ class AdminForm(forms.ModelForm):
     class Meta:
         model = AdminModel
         fields = ['usuario', 'email', 'senha']
+
+
+
+class AdminLoginForm(forms.Form):
+    email = forms.EmailField(label="email")
+    senha = forms.CharField(widget=forms.PasswordInput)
