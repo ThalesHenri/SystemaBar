@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block title %}<h1 style="font-size: 4rem;">Dashboard do Administrador</h1>{% endblock title %}
+{% block contentTitle %}{% endblock contentTitle %}
+{% block content %}
+<div class="dashboard-container">
+    <!-- Barra Lateral -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="#">Início</a></li>
+            <li><a href="#">Gerenciar Administradores</a></li>
+            <li><a href="#">Gerenciar Garçons</a></li>
+            <li><a href="#">Gerenciar Cozinha</a></li>
+            <li><a href="#">Gerenciar Cardápio</a></li>
+            <li><a href="#">Sair</a></li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <h1>Bem-vindo, Administrador!</h1>
+        <section class="overview">
+            <h2>Visão Geral</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Administradores</h3>
+                    <p>5 cadastrados</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Garçons</h3>
+                    <p>10 cadastrados</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Itens do Cardápio</h3>
+                    <p>35 itens</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="recent-actions">
+            <h2>Ações Recentes</h2>
+            <ul>
+                <li>Admin1 adicionou um novo item ao cardápio.</li>
+                <li>Garçom2 foi removido do sistema.</li>
+                <li>Item "Pizza" foi atualizado no cardápio.</li>
+            </ul>
+        </section>
+    </main>
+</div>
+{% endblock content %}

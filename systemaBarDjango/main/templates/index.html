@@ -6,11 +6,12 @@
     <title>SystemaBar - Home</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header">
         <div class="container">
-            <h1 class="logo">SystemaBar</h1>
+            <a href="/"><h1 class="logo">SystemaBar</h1></a>
             <nav class="nav">
                 <ul>
                     <li><a href="#">Home</a></li>
@@ -26,7 +27,7 @@
         <div class="container">
             {% block title %}<h2>Bem-vindo ao SystemaBar</h2>
             <p>O melhor sistema para gerenciar seu bar ou restaurante.</p>
-            <a href="#" class="btn-primary">Começar</a>{% endblock title %}
+            {% endblock title %}
         </div>
     </section>
 
@@ -44,10 +45,10 @@
                 <div class="feature-item">
                     <h4>Cozinha</h4>
                     <p>Processe os pedidos de uma forma intuitiva.</p>
-                    <a href="#" class="btn-primary" style="position: relative; top: 30px;">Acessar</a>
+                    <a href="{% url "cozinhaLogin" %}" class="btn-primary" style="position: relative; top: 30px;">Acessar</a>
                 </div>
                 <div class="feature-item">
-                    <h4>Atendentes</h4>
+                    <h4>Garçom</h4>
                     <p>Gere os pedidos e garanta uma melhor satisfação dos clientes.</p>
                     <a href="#" class="btn-primary" style="position: relative; top: 30px;">Acessar</a>
                 </div>
