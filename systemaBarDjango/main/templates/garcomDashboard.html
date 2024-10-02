@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+{% block title %}{% endblock title %}
+{% block contentTitle %}{% endblock contentTitle %}
+{% block content %}
+<div class="dashboard-container">
+    <div class="sidebar">
+        <ul>
+            <li><a href="#">Ver Pedidos</a></li>
+            <li><a href="#">Novo Pedido</a></li>
+            <li><a href="#">Finalizar Pedido</a></li>
+            <li><a href="#">Mesas Disponíveis</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Dashboard do Garçom</h1>
+        <p>Olá, {{ request.user.username}}! Bem-vindo(a) de volta.</p>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-primary">Logout</button>
+        </form>
+        <div class="overview">
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Pedidos Ativos</h3>
+                    <p>10</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Mesas Ocupadas</h3>
+                    <p>5</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Pedidos Concluídos</h3>
+                    <p>20</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>Pedidos Recentes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nº do Pedido</th>
+                    <th>Mesa</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>001</td>
+                    <td>7</td>
+                    <td>Em andamento</td>
+                    <td><button class="btn-primary">Finalizar</button></td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>3</td>
+                    <td>Pronto para entrega</td>
+                    <td><button class="btn-primary">Finalizar</button></td>
+                </tr>
+                <tr>
+                    <td>003</td>
+                    <td>5</td>
+                    <td>Entregue</td>
+                    <td><button disabled>Finalizado</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

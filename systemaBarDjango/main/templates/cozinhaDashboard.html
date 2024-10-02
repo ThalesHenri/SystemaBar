@@ -17,7 +17,12 @@
     </div>
 
     <div class="main-content">
-        <h1>Bem-vindo ao Dashboard da Cozinha, {{ cozinha_usuario.usuario }}</h1>
+        <h1>Olá, {{ request.user.username}}! Bem-vindo(a) de volta.</h1>
+        <!-- Botão de logout -->
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-primary">Logout</button>
+        </form>
         
         <h2>Últimos Pedidos</h2>
         <table>

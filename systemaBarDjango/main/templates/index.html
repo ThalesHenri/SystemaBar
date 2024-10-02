@@ -27,6 +27,7 @@
         <div class="container">
             {% block title %}<h2>Bem-vindo ao SystemaBar</h2>
             <p>O melhor sistema para gerenciar seu bar ou restaurante.</p>
+            <a href=" {% url 'escolhaCadastro'%}" class="btn-primary">Começar</a>
             {% endblock title %}
         </div>
     </section>
@@ -50,7 +51,7 @@
                 <div class="feature-item">
                     <h4>Garçom</h4>
                     <p>Gere os pedidos e garanta uma melhor satisfação dos clientes.</p>
-                    <a href="#" class="btn-primary" style="position: relative; top: 30px;">Acessar</a>
+                    <a href="{% url "garcomLogin" %}" class="btn-primary" style="position: relative; top: 30px;">Acessar</a>
                 </div>
             </div>
             {% endblock content %}

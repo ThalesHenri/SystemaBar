@@ -297,3 +297,10 @@ button:hover {
     top: -2px;
     transition: 1s;
 }
+
+
+.escolhaCadastroContainer {
+    display: flex;
+    justify-content: center;
+    gap: 13px;
+}

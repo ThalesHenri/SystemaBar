@@ -18,7 +18,12 @@
 
     <!-- Conteúdo Principal -->
     <main class="main-content">
-        <h1>Bem-vindo, Administrador!</h1>
+        <h1>Olá, {{ request.user}}! Bem-vindo(a) de volta.</h1>
+        <!-- Botão de logout -->
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-primary">Logout</button>
+        </form>
         <section class="overview">
             <h2>Visão Geral</h2>
             <div class="stats">

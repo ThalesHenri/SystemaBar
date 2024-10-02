@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Escolha o Tipo de Cadastro</h1>
+    <div class="escolhaCadastroContainer">
+        <a href="{% url 'cadastrarAdministrador' %}" class="btn-primary">Cadastrar Admin</a>
+        <a href="{% url 'cadastrarCozinha' %}" class="btn-primary">Cadastrar Cozinha</a>
+        <a href="{% url 'cadastrarGarcom' %}" class="btn-primary">Cadastrar Garçom</a>
+    </div>
+</div>
+{% endblock %}
+{% block title %}{% endblock title %}
+{% block contentTitle %}{% endblock contentTitle %}

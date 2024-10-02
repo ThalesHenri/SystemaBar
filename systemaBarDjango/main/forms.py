@@ -1,5 +1,5 @@
 from django import forms
-from .models import AdminModel, CozinhaModel
+from .models import AdminModel, CozinhaModel, GarcomModel
 
 class AdminForm(forms.ModelForm):
     senha = forms.CharField(widget=forms.PasswordInput)
@@ -21,5 +21,17 @@ class CozinhaForm(forms.ModelForm):
 
 
 class CozinhaLoginForm(forms.Form):
+    email = forms.EmailField(label="Email")
+    senha = forms.CharField(widget=forms.PasswordInput)
+    
+    
+class GarcomForm(forms.ModelForm):
+    senha = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = GarcomModel
+        fields = ['usuario', 'email', 'senha']
+
+class GarcomLoginForm(forms.Form):
     email = forms.EmailField(label="Email")
     senha = forms.CharField(widget=forms.PasswordInput)

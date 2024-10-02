@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse,redirect
-from .forms import AdminForm,AdminLoginForm,CozinhaForm,CozinhaLoginForm
-from .models import AdminModel,CozinhaModel
+from .forms import AdminForm,AdminLoginForm,CozinhaForm,CozinhaLoginForm,GarcomForm,GarcomLoginForm
+from .models import AdminModel,CozinhaModel,GarcomModel
 from django.contrib import messages
 from django.contrib.auth import authenticate,login
 
@@ -9,6 +9,10 @@ from django.contrib.auth import authenticate,login
 
 def home(response):
     return render(response,'index.html')
+
+
+def escolhaCadastro(response):
+    return render(response,'escolhaCadastro.html')
 
 
 def cadastrarAdministrador(response):
@@ -99,13 +103,63 @@ def cozinhaLogin(response):
                 messages.success(response, 'Login realizado com sucesso!')
                 print('cozinha_logado')
                 return redirect('cozinhaDashboard')  # Redireciona para o painel do administrador
-            except AdminModel.DoesNotExist:
+            except CozinhaModel.DoesNotExist:
                 messages.error(response, 'Credenciais inválidas. Verifique seu e-mail ou senha.')
     else:
-        form = AdminLoginForm()
+        form = CozinhaLoginForm()
 
     return render(response, 'cozinhaLogin.html', {'form': form})
 
 
 def cozinhaDashboard(response):
     return render(response,'cozinhaDashboard.html')
+
+
+def cadastrarGarcom(response):
+    form = GarcomForm()
+
+    return render(response, 'cadastrarGarcom.html', {'form': form})
+
+
+
+def cadastrarGarcomEvent(response):
+    if response.method == 'POST':
+        form = GarcomForm(response.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(response, 'Garcom cadastrado com sucesso!')
+            print('Mensagem de Sucesso Cadastrada')
+            return redirect('home')  # Redirecionar para a página inicial ou de login
+        else:
+            messages.error(response, 'Erro no cadastro. Verifique os dados.')
+            print("Mensagem de erro cadastrada")
+    else:
+        form = GarcomForm()
+    
+        
+
+def garcomLogin(response):
+    if response.method == 'POST':
+        form = GarcomLoginForm(response.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            senha = form.cleaned_data['senha']
+            
+            # Autenticando o garcom
+            try:
+                garcom = GarcomModel.objects.get(email=email, senha=senha)
+                # Você pode personalizar aqui a lógica de autenticação ou login
+                response.session['garcom_logged_in'] = garcom.id  # Armazenar o id do garcom na sessão
+                messages.success(response, 'Login realizado com sucesso!')
+                print('garcom_logado')
+                return redirect('garcomDashboard')  # Redireciona para o painel do administrador
+            except GarcomModel.DoesNotExist:
+                messages.error(response, 'Credenciais inválidas. Verifique seu e-mail ou senha.')
+    else:
+        form = GarcomLoginForm()
+
+    return render(response, 'garcomLogin.html', {'form': form})
+
+
+def garcomDashboard(response):
+    return render(response,'garcomDashboard.html')
