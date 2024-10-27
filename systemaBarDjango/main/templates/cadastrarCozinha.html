@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% block title %}<h2>Cadastrar Cozinha</h2>{% endblock title %}
+{% block contentTitle %}<h3>Cadastre aqui o novo usuário Cozinha</h3>{% endblock contentTitle %}
+{% block content %}
+<form method="POST" action="{% url "cadastrarCozinhaEvent" %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Cadastrar</button>
+</form>
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock content %}

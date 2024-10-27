@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+
+{% block title %}
+    <title>Dashboard da Cozinha</title>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h2>Cozinha</h2>
+        <ul>
+            <li><a href="{% url 'cozinhaDashboard' %}">Início</a></li>
+            <li><a href="#">Cadastrar Item</a></li>
+            <li><a href="#">Ver Cardápio</a></li>
+            <li><a href="#">Sair</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Olá, {{ request.user.username}}! Bem-vindo(a) de volta.</h1>
+        <!-- Botão de logout -->
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-primary">Logout</button>
+        </form>
+        
+        <h2>Últimos Pedidos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Garçom</th>
+                    <th>Mesa</th>
+                    <th>Pedido</th>
+                    <th>Data do Pedido</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedido in pedidos %}
+                <tr>
+                    <td>{{ pedido.garcom.usuario }}</td>
+                    <td>{{ pedido.item.nome }}</td>
+                    <td>{{ pedido.quantidade }}</td>
+                    <td>{{ pedido.data_pedido|date:"d/m/Y H:i" }}</td>
+                    <td>{{ pedido.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
