@@ -1,0 +1,9 @@
+{% extends "garcomDashboard.html" %}
+{% block garcomMainContent %} 
+<form method="POST" action="{% url "garcomNovoPedidoEvent" %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Cadastrar</button>
+</form>
+    <br>
+{% endblock garcomMainContent %}

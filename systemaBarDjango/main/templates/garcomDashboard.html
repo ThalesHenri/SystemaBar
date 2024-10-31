@@ -6,19 +6,20 @@
     <div class="sidebar">
         <ul>
             <li><a href="#">Ver Pedidos</a></li>
-            <li><a href="#">Novo Pedido</a></li>
-            <li><a href="#">Finalizar Pedido</a></li>
-            <li><a href="#">Mesas Disponíveis</a></li>
+            <li><a href={% url "garcomNovoPedido" %}>Novo Pedido</a></li>
+            <li><a href="{% url "garcomDashboard" %}">Dashboard</a></li>        
         </ul>
     </div>
 
     <div class="main-content">
         <h1>Dashboard do Garçom</h1>
         <p>Olá, {{ request.user.username}}! Bem-vindo(a) de volta.</p>
+        <!-- Botão de logout -->
         <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit" class="btn-primary">Logout</button>
         </form>
+        {% block garcomMainContent %}
         <div class="overview">
             <div class="stats">
                 <div class="stat-card">
@@ -67,6 +68,7 @@
                 </tr>
             </tbody>
         </table>
+        {% endblock garcomMainContent %}
     </div>
 </div>
 {% endblock %}
