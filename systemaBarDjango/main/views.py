@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect,HttpResponse
-from .forms import AdminForm, AdminLoginForm, CozinhaForm, CozinhaLoginForm, GarcomForm, GarcomLoginForm,PedidoForm
+from .forms import AdminForm, AdminLoginForm, CozinhaForm, CozinhaLoginForm, GarcomForm, GarcomLoginForm, PedidoForm, ItemPedidoFormSet
 from .models import AdminModel, CozinhaModel
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
@@ -163,8 +163,30 @@ def garcomDashboard(request):
 
 @login_required
 def garcomNovoPedido(request):
-    form = PedidoForm()
-    return render(request, 'novoPedido.html',{'form':form})
+    if request.method == "POST":
+        pedido_form = PedidoForm(request.POST)
+        item_formset = ItemPedidoFormSet(request.POST)
+
+        if pedido_form.is_valid() and item_formset.is_valid():
+            # Save Pedido
+            pedido = pedido_form.save(commit=False)
+            pedido.garcom = request.user  # Assign the current Garçom user
+            pedido.save()
+
+            # Save ItemPedido items and link them to Pedido
+            item_formset.instance = pedido
+            item_formset.save()
+
+            return redirect('garcomDashboard')  # Redirect to the dashboard or another page
+    else:
+        pedido_form = PedidoForm()
+        item_formset = ItemPedidoFormSet()
+
+    context = {
+        'pedido_form': pedido_form,
+        'item_formset': item_formset,
+    }
+    return render(request, 'novoPedido.html', context)
 
 
 def garcomNovoPedidoEvent(request):
@@ -180,7 +202,14 @@ def garcomNovoPedidoEvent(request):
         form = PedidoForm()
     return render(request, 'novoPedido.html', {'form': form})
 
+
 def garcomLogout(request):
     logout(request)
     messages.success(request, 'Logout realizado com sucesso.')
     return redirect('garcomLogin')
+
+
+@login_required
+def gerenciarAdministradores(request):
+    admins = AdminModel.objects.all() 
+    return render(request, "gerenciarAdministradores.html", {"admins": admins})

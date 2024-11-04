@@ -92,6 +92,13 @@ class ItemCardapio(models.Model):
         return self.nome  # Corrigido o retorno para exibir o nome do item corretamente
 
 
+class ItemPedido(models.Model):
+    pedido =  models.ForeignKey('Pedido', on_delete=models.CASCADE, related_name='itens')
+    item_cardapio = models.ForeignKey('ItemCardapio',on_delete=models.CASCADE)
+    quantidade = models.PositiveIntegerField()
+    preco = models.DecimalField(max_digits=10,decimal_places=2)
+    
+    
 class Pedido(models.Model):
     STATUS_CHOICES = [
         ('criado', 'Criado'),
@@ -99,8 +106,6 @@ class Pedido(models.Model):
         ('pronto', 'Pronto')
     ]
     garcom = models.ForeignKey('GarcomModel', on_delete=models.CASCADE)
-    item_cardapio = models.ForeignKey('ItemCardapio', on_delete=models.CASCADE)
-    quantidade = models.PositiveIntegerField()
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     pagamento = models.BooleanField(default=False)
     data_pedido = models.DateTimeField(auto_now_add=True)

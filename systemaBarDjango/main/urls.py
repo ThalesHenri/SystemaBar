@@ -8,6 +8,7 @@ urlpatterns = [
     path('cadastrarAdministradorEvent/', views.cadastrarAdministradorEvent, name='cadastrarAdministradorEvent'),
     path('cadastrarAdministrador/', views.cadastrarAdministrador, name='cadastrarAdministrador'),
     path('administradorDashboard/', views.administradorDashboard, name='administradorDashboard'),
+    path('administradorDashboard/gerenciarAdministradores', views.gerenciarAdministradores, name='gerenciarAdministradores'),
     path('cozinhaLogin/', views.cozinhaLogin, name='cozinhaLogin'),
     path('cadastrarCozinhaEvent/', views.cadastrarCozinhaEvent, name='cadastrarCozinhaEvent'),
     path('cadastrarCozinha/', views.cadastrarCozinha, name='cadastrarCozinha'),

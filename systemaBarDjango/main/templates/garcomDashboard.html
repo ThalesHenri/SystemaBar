@@ -43,31 +43,36 @@
                 <tr>
                     <th>Nº do Pedido</th>
                     <th>Mesa</th>
+                    <th>Itens</th>
                     <th>Status</th>
                     <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>001</td>
-                    <td>7</td>
-                    <td>Em andamento</td>
-                    <td><button class="btn-primary">Finalizar</button></td>
-                </tr>
-                <tr>
-                    <td>002</td>
-                    <td>3</td>
-                    <td>Pronto para entrega</td>
-                    <td><button class="btn-primary">Finalizar</button></td>
-                </tr>
-                <tr>
-                    <td>003</td>
-                    <td>5</td>
-                    <td>Entregue</td>
-                    <td><button disabled>Finalizado</button></td>
-                </tr>
+                {% for pedido in pedidos %}
+                    <tr>
+                        <td>{{ pedido.id }}</td>
+                        <td>{{ pedido.mesa }}</td>
+                        <td>
+                            <ul>
+                                {% for item in pedido.itempedido_set.all %}
+                                    <li>{{ item.item_cardapio.nome }} - {{ item.quantidade }} x {{ item.preco }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ pedido.get_status_display }}</td>
+                        <td>
+                            {% if pedido.status != 'pronto' %}
+                                <button class="btn-primary">Finalizar</button>
+                            {% else %}
+                                <button disabled>Finalizado</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
+        
         {% endblock garcomMainContent %}
     </div>
 </div>

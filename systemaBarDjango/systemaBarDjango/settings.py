@@ -133,7 +133,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'main/static')]
 
 
 AUTHENTICATION_BACKENDS = (
-    'main.backends.EmailAuthBackend',  # Adicione o caminho para o backend que você criou
+    'main.backends.EmailAuthBackend', 
     'django.contrib.auth.backends.ModelBackend',  # Backend padrão do Django
 )
 

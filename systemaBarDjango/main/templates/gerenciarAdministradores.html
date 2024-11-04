@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block title %}<h1>Gerenciar Administradores</h1>{% endblock title %}
+{% block content %}
+<div class="admin-list-container">
+    <h2>Administradores Cadastrados</h2>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Usuário</th>
+                <th>Email</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for admin in admins %}
+                <tr>
+                    <td>{{ admin.usuario }}</td>
+                    <td>{{ admin.email }}</td>
+                    <td>
+                        <a href="#" class="btn-edit">Editar</a>
+                        <a href="#" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este administrador?');">Excluir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br><br>
+<a href="{% url "administradorDashboard" %}" class="btn-edit">Dashboard</a>
+{% endblock content %}
+{% block contentTitle %}{% endblock contentTitle %}

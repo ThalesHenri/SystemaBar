@@ -304,3 +304,26 @@ button:hover {
     justify-content: center;
     gap: 13px;
 }
+
+/*css do dashboardAdmin*/
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th, .admin-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.btn-edit, .btn-delete {
+    color: #fff;
+    padding: 5px 10px;
+    margin-right: 5px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-edit { background-color: #4CAF50; }  /* Green */
+.btn-delete { background-color: #f44336; } /* Red */

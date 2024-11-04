@@ -1,5 +1,6 @@
 from django import forms
-from .models import AdminModel,CozinhaModel,GarcomModel,Pedido
+from django.forms import inlineformset_factory
+from .models import AdminModel,CozinhaModel,GarcomModel,Pedido,ItemPedido
 
 class AdminForm(forms.ModelForm):
     senha = forms.CharField(widget=forms.PasswordInput)
@@ -40,4 +41,20 @@ class GarcomLoginForm(forms.Form):
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['garcom','item_cardapio','quantidade','preco','pagamento','mesa']
+        fields = ['garcom','preco','pagamento','mesa']
+        
+
+class ItemPedidoForm(forms.ModelForm):
+    class Meta:
+        model = ItemPedido
+        fields = ['item_cardapio', 'quantidade']
+        
+
+ItemPedidoFormSet = inlineformset_factory(
+    Pedido,
+    ItemPedido,
+    form=ItemPedidoForm,
+    extra=1,  # Number of empty forms to display
+    can_delete=True  # Allows items to be removed from the formset
+)
+        

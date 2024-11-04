@@ -1,9 +1,27 @@
 {% extends "garcomDashboard.html" %}
-{% block garcomMainContent %} 
+{% block garcomMainContent %}
 <form method="POST" action="{% url "garcomNovoPedidoEvent" %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Cadastrar</button>
+    
+    <h3>Novo Pedido</h3>
+    
+    <!-- Pedido form fields (like mesa) -->
+    {{ pedido_form.as_p }}
+    
+    <h4>Itens</h4>
+    
+    <!-- Render management form for ItemPedido formset -->
+    {{ item_formset.management_form }}
+    
+    <div id="item-container">
+        {% for item_form in item_formset %}
+            <div class="item-pedido">
+                {{ item_form.item_cardapio.label }}: {{ item_form.item_cardapio }}
+                {{ item_form.quantidade.label }}: {{ item_form.quantidade }}
+            </div>
+        {% endfor %}
+    </div>
+    
+    <button type="submit" class="btn-primary">Cadastrar Pedido</button>
 </form>
-    <br>
 {% endblock garcomMainContent %}
