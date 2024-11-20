@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect,HttpResponse
+from django.shortcuts import render, redirect,HttpResponse, get_object_or_404
 from .forms import AdminForm, AdminLoginForm, CozinhaForm, CozinhaLoginForm, GarcomForm, GarcomLoginForm, PedidoForm, ItemPedidoFormSet
-from .models import AdminModel, CozinhaModel
+from .models import AdminModel, CozinhaModel, GarcomModel, Pedido, ItemPedido
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -213,3 +213,81 @@ def garcomLogout(request):
 def gerenciarAdministradores(request):
     admins = AdminModel.objects.all() 
     return render(request, "gerenciarAdministradores.html", {"admins": admins})
+
+
+@login_required
+def editarAdministrador(request, pk):
+    admin = AdminModel.objects.get(id=pk)
+    if request.method == "POST":
+        form = AdminForm(request.POST, instance=admin)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Administrador editado com sucesso.")
+            return redirect("gerenciarAdministradores")
+    else:
+        form = AdminForm(instance=admin)
+    return render(request, "editarAdministrador.html", {"form": form,"admin":admin})
+
+@login_required
+def deletarAdministrador(request, admin_id):
+    admin = get_object_or_404(AdminModel, pk=admin_id)
+    admin.delete()
+    messages.success(request, "Administrador excluido com sucesso.")
+    return redirect("gerenciarAdministradores")
+
+
+@login_required
+def gerenciarGarcom(request):
+    garcom = GarcomModel.objects.all() 
+    return render(request, "gerenciarGarcom.html", {"garcom": garcom})
+
+
+
+@login_required
+def editarGarcom(request, pk):
+    garcom = GarcomModel.objects.get(id=pk)
+    if request.method == "POST":
+        form = GarcomForm(request.POST, instance=garcom)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Garcom editado com sucesso.")
+            return redirect("gerenciarGarcom")
+    else:
+        form = GarcomForm(instance=garcom)
+    return render(request, "editarGarcom.html", {"form": form, "garcom":garcom})
+
+@login_required
+def deletarGarcom(request, garcom_id):
+    garcom = get_object_or_404(GarcomModel, pk=garcom_id)
+    garcom.delete()
+    messages.success(request, "Garçom excluido com sucesso.")
+    return redirect("gerenciarGarcom")
+
+
+
+@login_required
+def gerenciarCozinha(request):
+    cozinha = CozinhaModel.objects.all() 
+    return render(request, "gerenciarCozinha.html", {"cozinha": cozinha})
+
+
+
+@login_required
+def editarCozinha(request, pk):
+    cozinha = CozinhaModel.objects.get(id=pk)
+    if request.method == "POST":
+        form = CozinhaForm(request.POST, instance=cozinha)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Cozinha editado com sucesso.")
+            return redirect("gerenciarCozinha")
+    else:
+        form = CozinhaForm(instance=cozinha)
+    return render(request, "editarCozinha.html", {"form": form, "cozinha":cozinha})
+
+@login_required
+def deletarCozinha(request, cozinha_id):
+    cozinha = get_object_or_404(CozinhaModel, pk=cozinha_id)
+    cozinha.delete()
+    messages.success(request, "Cozinha excluido com sucesso.")
+    return redirect("gerenciarCozinha")

@@ -9,6 +9,14 @@ urlpatterns = [
     path('cadastrarAdministrador/', views.cadastrarAdministrador, name='cadastrarAdministrador'),
     path('administradorDashboard/', views.administradorDashboard, name='administradorDashboard'),
     path('administradorDashboard/gerenciarAdministradores', views.gerenciarAdministradores, name='gerenciarAdministradores'),
+    path('administradorDashboard/gerenciarAdministradores/editar/<int:pk>/', views.editarAdministrador, name='editarAdministrador'),
+    path('administradorDashboard/gerenciarAdministradores/deletar/<int:admin_id>/', views.deletarAdministrador, name='deletarAdministrador'),
+    path('administradorDashboard/gerenciarGarcom', views.gerenciarGarcom, name='gerenciarGarcom'),
+    path('administradorDashboard/gerenciarGarcons/editar/<int:pk>/', views.editarGarcom, name='editarGarcom'),
+    path('administradorDashboard/gerenciarGarcons/deletar/<int:garcom_id>/', views.deletarGarcom, name='deletarGarcom'),
+    path('administradorDashboard/gerenciarCozinha', views.gerenciarCozinha, name='gerenciarCozinha'),
+    path('administradorDashboard/gerenciarCozinha/editar/<int:pk>/', views.editarCozinha, name='editarCozinha'),
+    path('administradorDashboard/gerenciarCozinha/deletar/<int:cozinha_id>/', views.deletarCozinha, name='deletarCozinha'),
     path('cozinhaLogin/', views.cozinhaLogin, name='cozinhaLogin'),
     path('cadastrarCozinhaEvent/', views.cadastrarCozinhaEvent, name='cadastrarCozinhaEvent'),
     path('cadastrarCozinha/', views.cadastrarCozinha, name='cadastrarCozinha'),
@@ -21,6 +29,7 @@ urlpatterns = [
     path('garcomDashboard/novoPedido', views.garcomNovoPedido, name='garcomNovoPedido'),
     path('garcomDashboard/novoPedidoEvent', views.garcomNovoPedidoEvent, name='garcomNovoPedidoEvent'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+    
 
 
     

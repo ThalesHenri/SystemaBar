@@ -1,9 +1,9 @@
 {% extends "index.html" %}
 
-{% block title %}<h1>Gerenciar Administradores</h1>{% endblock title %}
+{% block title %}<h1>Gerenciar Cozinha</h1>{% endblock title %}
 {% block content %}
 <div class="admin-list-container">
-    <h2>Administradores Cadastrados</h2>
+    <h2>Cozinha Cadastrados</h2>
     <table class="admin-table">
         <thead>
             <tr>
@@ -13,13 +13,13 @@
             </tr>
         </thead>
         <tbody>
-            {% for admin in admins %}
+            {% for c in cozinha %}
                 <tr>
-                    <td>{{ admin.usuario }}</td>
-                    <td>{{ admin.email }}</td>
+                    <td>{{ c.usuario }}</td>
+                    <td>{{ c.email }}</td>
                     <td>
-                        <a href="{% url "editarAdministrador" admin.pk %}" class="btn-edit">Editar</a>
-                        <a href="{% url "deletarAdministrador" admin.pk %}" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este administrador?');">Excluir</a>
+                        <a href="{% url "editarCozinha" c.pk %}" class="btn-edit">Editar</a>
+                        <a href="{% url "deletarCozinha" c.pk %}" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este administrador?');">Excluir</a>
                     </td>
                 </tr>
             {% endfor %}

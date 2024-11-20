@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+
+{% block title %}<h2>Editar Administrador</h2>{% endblock title %}
+{% block content %}
+<h2>Editar Administrador</h2>
+<form method="POST" action="{% url 'editar' pk=admin.pk %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Editar</button>
+</form>
+<br><br>
+<a href="{% url "administradorDashboard" %}" class="btn-edit">Dashboard</a>
+{% endblock content %}
+
+{% block contentTitle %}{% endblock contentTitle %}
