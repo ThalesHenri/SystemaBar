@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import inlineformset_factory
-from .models import AdminModel,CozinhaModel,GarcomModel,Pedido,ItemPedido
+from .models import AdminModel,CozinhaModel,GarcomModel,Pedido,ItemPedido, ItemCardapio
 
 class AdminForm(forms.ModelForm):
     senha = forms.CharField(widget=forms.PasswordInput)
@@ -58,3 +58,9 @@ ItemPedidoFormSet = inlineformset_factory(
     can_delete=True  # Allows items to be removed from the formset
 )
         
+        
+
+class ItemCardapioForm(forms.ModelForm):
+    class Meta:
+        model = ItemCardapio
+        fields = ['nome', 'foto', 'preco']

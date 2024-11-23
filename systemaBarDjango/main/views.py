@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,HttpResponse, get_object_or_404
-from .forms import AdminForm, AdminLoginForm, CozinhaForm, CozinhaLoginForm, GarcomForm, GarcomLoginForm, PedidoForm, ItemPedidoFormSet
-from .models import AdminModel, CozinhaModel, GarcomModel, Pedido, ItemPedido
+from .forms import AdminForm, AdminLoginForm, CozinhaForm, CozinhaLoginForm, GarcomForm, GarcomLoginForm, PedidoForm, ItemPedidoFormSet, ItemCardapioForm
+from .models import AdminModel, CozinhaModel, GarcomModel, Pedido, ItemPedido,ItemCardapio
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -291,3 +291,23 @@ def deletarCozinha(request, cozinha_id):
     cozinha.delete()
     messages.success(request, "Cozinha excluido com sucesso.")
     return redirect("gerenciarCozinha")
+
+
+@login_required
+def gerenciarCardapio(request):
+    menu = ItemCardapio.objects.all()
+    form = ItemCardapioForm()
+    return render(request, "gerenciarCardapio.html", {"menu": menu,"form": form})
+
+
+@login_required
+def adicionarItemCardapio(request):
+    if request.method == "POST":
+        form = ItemCardapioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Item adicionado com sucesso.")
+            return redirect("gerenciarCardapio")
+    else:
+        form = ItemCardapioForm()
+    return render(request, "gerenciarCardapio.html", {"form": form})
