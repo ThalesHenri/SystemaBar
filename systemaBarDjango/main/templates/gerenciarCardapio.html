@@ -18,13 +18,13 @@
                 <tr>
                     <td>{{ item.nome }}</td>
                     <td>{{ item.preco }}</td>
-                    <td><img src="{{ item.foto }}"></td>
+                    <td><img src="{{ item.foto.url }}" class="fotoProduto"></td>
                     
                     <td>
-                        <a href="#" class="btn-edit">Editar</a>
-                        <a href="#" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este item?');">Excluir</a>
+                        <a href="{% url "editarItemCardapio" item.pk %}" class="btn-edit">Editar</a>
+                        <a href="{% url "deletarItemCardapio" item.pk %}" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este item?');">Excluir</a>
                     </td>
-                </tr>
+                </tr>s
             {% endfor %}
         </tbody>
     </table>
@@ -35,5 +35,7 @@
         {{ form.as_p }}
         <input type="submit" value="Cadastrar" class="btn-primary">
     </form>
+    <br><br>
+    <a href="{% url "administradorDashboard" %}" class="btn-primary">Dashboard</a>
 </div>
 {% endblock content %}

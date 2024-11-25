@@ -12,7 +12,10 @@
             <li><a href="{% url "gerenciarGarcom" %}">Gerenciar Garçons</a></li>
             <li><a href="{% url "gerenciarCozinha" %}">Gerenciar Cozinha</a></li>
             <li><a href="{% url "gerenciarCardapio" %}">Gerenciar Cardápio</a></li>
-            <li><a href="#">Sair</a></li>
+            <li><form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form></li>
         </ul>
     </nav>
 
@@ -20,10 +23,7 @@
     <main class="main-content">
         <h1>Olá, {{ request.user}}! Bem-vindo(a) de volta.</h1>
         <!-- Botão de logout -->
-        <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn-primary">Logout</button>
-        </form>
+        
         <section class="overview">
             <h2>Visão Geral</h2>
             <div class="stats">

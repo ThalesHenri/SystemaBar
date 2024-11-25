@@ -303,7 +303,7 @@ def gerenciarCardapio(request):
 @login_required
 def adicionarItemCardapio(request):
     if request.method == "POST":
-        form = ItemCardapioForm(request.POST)
+        form = ItemCardapioForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Item adicionado com sucesso.")
@@ -311,3 +311,25 @@ def adicionarItemCardapio(request):
     else:
         form = ItemCardapioForm()
     return render(request, "gerenciarCardapio.html", {"form": form})
+
+
+@login_required
+def editarItemCardapio(request, pk):
+    item = ItemCardapio.objects.get(id=pk)
+    if request.method == "POST":
+        form = ItemCardapioForm(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Item editado com sucesso.")
+            return redirect("gerenciarCardapio")
+    else:
+        form = ItemCardapioForm(instance=item)
+    return render(request, "editarItemCardapio.html", {"form": form, "item":item})
+
+
+@login_required
+def deletarItemCardapio(request, item_id):
+    item = get_object_or_404(ItemCardapio, pk=item_id)
+    item.delete()
+    messages.success(request, "Item excluido com sucesso.")
+    return redirect("gerenciarCardapio")

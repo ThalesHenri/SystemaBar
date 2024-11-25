@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 from django.contrib.auth import views as auth_views
 
@@ -19,6 +21,8 @@ urlpatterns = [
     path('administradorDashboard/gerenciarCozinha/deletar/<int:cozinha_id>/', views.deletarCozinha, name='deletarCozinha'),
     path('administradorDashboard/gerenciarCardapio', views.gerenciarCardapio, name='gerenciarCardapio'),
     path('administradorDashboard/gerenciarCardapio/adicionarItemCardapio/', views.adicionarItemCardapio, name='adicionarItemCardapio'),
+    path('administradorDashboard/gerenciarCardapio/editar/<int:pk>/', views.editarItemCardapio, name='editarItemCardapio'),
+    path('administradorDashboard/gerenciarCardapio/deletar/<int:pk>/', views.deletarItemCardapio, name='deletarItemCardapio'),
     path('cozinhaLogin/', views.cozinhaLogin, name='cozinhaLogin'),
     path('cadastrarCozinhaEvent/', views.cadastrarCozinhaEvent, name='cadastrarCozinhaEvent'),
     path('cadastrarCozinha/', views.cadastrarCozinha, name='cadastrarCozinha'),
@@ -30,7 +34,7 @@ urlpatterns = [
     path('garcomDashboard/', views.garcomDashboard, name='garcomDashboard'),
     path('garcomDashboard/novoPedido', views.garcomNovoPedido, name='garcomNovoPedido'),
     path('garcomDashboard/novoPedidoEvent', views.garcomNovoPedidoEvent, name='garcomNovoPedidoEvent'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout')] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     
 
 
@@ -40,4 +44,4 @@ urlpatterns = [
     
     
 
-]
+
