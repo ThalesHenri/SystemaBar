@@ -34,7 +34,9 @@ urlpatterns = [
     path('garcomDashboard/', views.garcomDashboard, name='garcomDashboard'),
     path('garcomDashboard/novoPedido', views.garcomNovoPedido, name='garcomNovoPedido'),
     path('garcomDashboard/novoPedidoEvent', views.garcomNovoPedidoEvent, name='garcomNovoPedidoEvent'),
+    path('clean-actions/', views.clean_actions, name='clean_actions'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout')] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
     
 
 

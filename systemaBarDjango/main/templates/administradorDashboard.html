@@ -42,12 +42,15 @@
             </div>
         </section>
         
+        <!-- systemaBarDjango/main/templates/administradorDashboard.html -->
         <section class="recent-actions">
             <h2>Ações Recentes</h2>
             <ul>
-                <li>Admin1 adicionou um novo item ao cardápio.</li>
-                <li>Garçom2 foi removido do sistema.</li>
-                <li>Item "Pizza" foi atualizado no cardápio.</li>
+                {% for action in recent_actions %}
+                    <li>{{ action.descricao }} ({{ action.data }})</li>
+                {% endfor %}
+                <br><br>
+                <button><a href="{% url 'clean_actions' %}" onclick="return confirm('Tem certeza?');">Limpar ações</a></button>
             </ul>
         </section>
     </main>

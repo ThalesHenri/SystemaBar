@@ -113,4 +113,10 @@ class Pedido(models.Model):
     status = models.CharField(max_length=15,choices=STATUS_CHOICES,default='criado')
 
     def __str__(self):
+        
         return f'{self.garcom} - {self.item_cardapio} - Mesa: {self.mesa}'
+
+
+class RecentAction(models.Model):
+    descricao = models.CharField(max_length=255)
+    data = models.DateTimeField(auto_now_add=True)

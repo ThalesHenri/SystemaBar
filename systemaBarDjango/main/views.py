@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,HttpResponse, get_object_or_404
 from .forms import AdminForm, AdminLoginForm, CozinhaForm, CozinhaLoginForm, GarcomForm, GarcomLoginForm, PedidoForm, ItemPedidoFormSet, ItemCardapioForm
-from .models import AdminModel, CozinhaModel, GarcomModel, Pedido, ItemPedido,ItemCardapio
+from .models import AdminModel, CozinhaModel, GarcomModel, Pedido, ItemPedido,ItemCardapio, RecentAction
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -27,6 +27,8 @@ def cadastrarAdministradorEvent(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Administrador cadastrado com sucesso!')
+            action = RecentAction(descricao=f'Administrador {request.user} cadastrado com sucesso!')
+            action.save()
             return redirect('home')
         else:
             messages.error(request, 'Erro no cadastro. Verifique os dados.')
@@ -49,6 +51,8 @@ def administradorLogin(request):
                     login(request, admin, backend='main.backends.EmailAuthBackend')  # Log the user in
                     request.session['is_admin'] = True
                     messages.success(request, 'Login realizado com sucesso!')
+                    action = RecentAction(descricao=f'Administrador {request.user} logado com sucesso!')
+                    action.save()
                     return redirect('administradorDashboard')
                 else:
                     messages.error(request, 'Credenciais inválidas. Verifique sua senha.')
@@ -64,8 +68,10 @@ def administradorLogin(request):
 def administradorDashboard(request):
     if not request.session.get('is_admin'):
         return HttpResponse('Conflito entre admin e garçom.')
+    
+    recent_actions = RecentAction.objects.all()
         
-    return render(request, 'administradorDashboard.html')
+    return render(request, 'administradorDashboard.html', {'recent_actions': recent_actions})
 
 
 def cadastrarCozinha(request):
@@ -79,6 +85,8 @@ def cadastrarCozinhaEvent(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Cozinha cadastrada com sucesso!')
+            action = RecentAction(descricao=f'Cozinha {request.user} cadastrada com sucesso!')
+            action.save()
             return redirect('home')
         else:
             messages.error(request, 'Erro no cadastro. Verifique os dados.')
@@ -99,6 +107,8 @@ def cozinhaLogin(request):
                 if check_password(senha, cozinha.senha):  # Verifica a senha criptografada
                     login(request, cozinha)
                     messages.success(request, 'Login realizado com sucesso!')
+                    action = RecentAction(descricao=f'Cozinha {request.user} logada com sucesso!') 
+                    action.save()
                     return redirect('cozinhaDashboard')
                 else:
                     messages.error(request, 'Credenciais inválidas. Verifique sua senha.')
@@ -126,6 +136,8 @@ def cadastrarGarcomEvent(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Garçom cadastrado com sucesso!')
+            action = RecentAction(descricao=f'Garçom {request.user} cadastrado com sucesso!')  
+            action.save()
             return redirect('home')
         else:
             messages.error(request, 'Erro no cadastro. Verifique os dados.')
@@ -146,6 +158,8 @@ def garcomLogin(request):
             if garcom is not None:
                 login(request, garcom)
                 messages.success(request, 'Login realizado com sucesso!')
+                action = RecentAction(descricao=f'Garçom {request.user} logado com sucesso!')
+                action.save()
                 return redirect('garcomDashboard')  # Certifique-se que está redirecionando corretamente
             else:
                 messages.error(request, 'Credenciais inválidas. Verifique seu e-mail ou senha.')
@@ -176,7 +190,6 @@ def garcomNovoPedido(request):
             # Save ItemPedido items and link them to Pedido
             item_formset.instance = pedido
             item_formset.save()
-
             return redirect('garcomDashboard')  # Redirect to the dashboard or another page
     else:
         pedido_form = PedidoForm()
@@ -195,7 +208,9 @@ def garcomNovoPedidoEvent(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Pedido cadastrado com sucesso!')
-            return redirect('home')
+            action = RecentAction(descricao=f'O garçom {request.user} criou um pedido com sucesso!')  
+            action.save()
+            return redirect('garcomDashboard')
         else:
             messages.error(request, 'Erro no cadastro. Verifique os dados.')
     else:
@@ -206,6 +221,8 @@ def garcomNovoPedidoEvent(request):
 def garcomLogout(request):
     logout(request)
     messages.success(request, 'Logout realizado com sucesso.')
+    action = RecentAction(descricao=f'Garçom {request.user} deslogado com sucesso!')
+    action.save()
     return redirect('garcomLogin')
 
 
@@ -223,6 +240,8 @@ def editarAdministrador(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, "Administrador editado com sucesso.")
+            action = RecentAction(descricao=f'Administrador {request.user} editado com sucesso!')
+            action.save()
             return redirect("gerenciarAdministradores")
     else:
         form = AdminForm(instance=admin)
@@ -233,6 +252,8 @@ def deletarAdministrador(request, admin_id):
     admin = get_object_or_404(AdminModel, pk=admin_id)
     admin.delete()
     messages.success(request, "Administrador excluido com sucesso.")
+    action = RecentAction(descricao=f'Administrador {request.user} deletou um administrador!')
+    action.save()
     return redirect("gerenciarAdministradores")
 
 
@@ -251,6 +272,8 @@ def editarGarcom(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, "Garcom editado com sucesso.")
+            action = RecentAction(descricao=f'Garçom {request.user} editado com sucesso!')
+            action.save()
             return redirect("gerenciarGarcom")
     else:
         form = GarcomForm(instance=garcom)
@@ -261,6 +284,8 @@ def deletarGarcom(request, garcom_id):
     garcom = get_object_or_404(GarcomModel, pk=garcom_id)
     garcom.delete()
     messages.success(request, "Garçom excluido com sucesso.")
+    action = RecentAction(descricao=f'Administrador {request.user} deletou um garçom!')
+    action.save()
     return redirect("gerenciarGarcom")
 
 
@@ -280,6 +305,8 @@ def editarCozinha(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, "Cozinha editado com sucesso.")
+            action = RecentAction(descricao=f'Cozinha {request.user} editado com sucesso!')
+            action.save()
             return redirect("gerenciarCozinha")
     else:
         form = CozinhaForm(instance=cozinha)
@@ -290,6 +317,8 @@ def deletarCozinha(request, cozinha_id):
     cozinha = get_object_or_404(CozinhaModel, pk=cozinha_id)
     cozinha.delete()
     messages.success(request, "Cozinha excluido com sucesso.")
+    action = RecentAction(descricao=f'O administrador {request.user} deletou um Cozinha!')
+    action.save()
     return redirect("gerenciarCozinha")
 
 
@@ -307,6 +336,8 @@ def adicionarItemCardapio(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Item adicionado com sucesso.")
+            action = RecentAction(descricao=f'Item {request.user} adicionado com sucesso!')
+            action.save()
             return redirect("gerenciarCardapio")
     else:
         form = ItemCardapioForm()
@@ -321,6 +352,8 @@ def editarItemCardapio(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, "Item editado com sucesso.")
+            action = RecentAction(descricao=f'Item {request.user} editado com sucesso!')
+            action.save()
             return redirect("gerenciarCardapio")
     else:
         form = ItemCardapioForm(instance=item)
@@ -328,8 +361,16 @@ def editarItemCardapio(request, pk):
 
 
 @login_required
-def deletarItemCardapio(request, item_id):
-    item = get_object_or_404(ItemCardapio, pk=item_id)
+def deletarItemCardapio(request, pk):
+    item = get_object_or_404(ItemCardapio, id=pk)
     item.delete()
     messages.success(request, "Item excluido com sucesso.")
+    action = RecentAction(descricao=f'O administrador {request.user} deletou um Item!')
+    action.save()
     return redirect("gerenciarCardapio")
+    
+
+@login_required
+def clean_actions(request):
+    RecentAction.objects.all().delete()  # Delete all RecentAction instances
+    return redirect('administradorDashboard')  # Redirect to the dashboard
