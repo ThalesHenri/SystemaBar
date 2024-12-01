@@ -93,10 +93,10 @@ class ItemCardapio(models.Model):
 
 
 class ItemPedido(models.Model):
-    pedido =  models.ForeignKey('Pedido', on_delete=models.CASCADE, related_name='itens')
+    pedido =  models.ForeignKey('Pedido', on_delete=models.CASCADE, related_name='item_pedido')
     item_cardapio = models.ForeignKey('ItemCardapio',on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
-    preco = models.DecimalField(max_digits=10,decimal_places=2)
+    preco = models.DecimalField(max_digits=10,decimal_places=2, null=True)
     
     
 class Pedido(models.Model):
@@ -105,18 +105,23 @@ class Pedido(models.Model):
         ('preparando', 'Preparando'),
         ('pronto', 'Pronto')
     ]
+    itens = models.ForeignKey('ItemPedido', on_delete=models.CASCADE, related_name='pedidos', null=True)
     garcom = models.ForeignKey('GarcomModel', on_delete=models.CASCADE)
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
     pagamento = models.BooleanField(default=False)
     data_pedido = models.DateTimeField(auto_now_add=True)
     mesa = models.CharField(max_length=50, blank=True, null=True)
     status = models.CharField(max_length=15,choices=STATUS_CHOICES,default='criado')
+    preco = models.DecimalField(max_digits=10,decimal_places=2, default=0)
+    
 
     def __str__(self):
-        
-        return f'{self.garcom} - {self.item_cardapio} - Mesa: {self.mesa}'
+        return f'{self.garcom} - Mesa: {self.mesa} - {self.itens.count()} itens'
 
 
+    def get_total_price(self):
+        return sum(item.preco for item in self.itens.all())    
+    
+    
 class RecentAction(models.Model):
     descricao = models.CharField(max_length=255)
     data = models.DateTimeField(auto_now_add=True)

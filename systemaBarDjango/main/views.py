@@ -172,7 +172,10 @@ def garcomLogin(request):
 
 @login_required
 def garcomDashboard(request):
-    return render(request, 'garcomDashboard.html')
+    pedidos = Pedido.objects.filter(garcom=request.user).order_by('-id')
+    for pedido in pedidos:
+        print(pedido.id, pedido.itens)  # Print the pedido id and related item_pedidos
+    return render(request, 'garcomDashboard.html', {'pedidos': pedidos})
 
 
 @login_required
@@ -182,15 +185,21 @@ def garcomNovoPedido(request):
         item_formset = ItemPedidoFormSet(request.POST)
 
         if pedido_form.is_valid() and item_formset.is_valid():
-            # Save Pedido
             pedido = pedido_form.save(commit=False)
-            pedido.garcom = request.user  # Assign the current Garçom user
+            pedido.garcom = request.user
             pedido.save()
 
-            # Save ItemPedido items and link them to Pedido
             item_formset.instance = pedido
             item_formset.save()
-            return redirect('garcomDashboard')  # Redirect to the dashboard or another page
+
+            # Calculate total price of the order
+            pedido.preco = pedido.get_total_price()
+            pedido.save()
+
+            messages.success(request, 'Pedido cadastrado com sucesso!')
+            return redirect('garcomDashboard')
+        else:
+            messages.error(request, 'Erro no cadastro. Verifique os dados.')
     else:
         pedido_form = PedidoForm()
         item_formset = ItemPedidoFormSet()
@@ -205,8 +214,15 @@ def garcomNovoPedido(request):
 def garcomNovoPedidoEvent(request):
     if request.method == 'POST':
         form = PedidoForm(request.POST)
+        item_formset = ItemPedidoFormSet(request.POST)
         if form.is_valid():
-            form.save()
+            pedido = form.save(commit=False)
+            pedido.garcom = request.user
+            pedido.save()
+            for item_form in item_formset:
+                item = item_form.save(commit=False)
+                item.pedido = pedido
+                item.save()
             messages.success(request, 'Pedido cadastrado com sucesso!')
             action = RecentAction(descricao=f'O garçom {request.user} criou um pedido com sucesso!')  
             action.save()

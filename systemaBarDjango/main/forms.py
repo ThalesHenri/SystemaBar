@@ -41,7 +41,7 @@ class GarcomLoginForm(forms.Form):
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['garcom','preco','pagamento','mesa']
+        fields = ['pagamento','mesa']
         
 
 class ItemPedidoForm(forms.ModelForm):
