@@ -69,9 +69,19 @@ def administradorDashboard(request):
     if not request.session.get('is_admin'):
         return HttpResponse('Conflito entre admin e garçom.')
     
-    recent_actions = RecentAction.objects.all()
+    administradores = AdminModel.objects.all()
+    garcons = GarcomModel.objects.all()
+    cardapio = ItemCardapio.objects.all()
+    context = {
+    'recent_actions' : RecentAction.objects.all(),
+    'administradores': administradores,
+        'garcons': garcons,
+        'cardapio': cardapio,
+    
+    }
+    
         
-    return render(request, 'administradorDashboard.html', {'recent_actions': recent_actions})
+    return render(request, 'administradorDashboard.html', context)
 
 
 def cadastrarCozinha(request):
@@ -105,7 +115,7 @@ def cozinhaLogin(request):
             try:
                 cozinha = CozinhaModel.objects.get(email=email)
                 if check_password(senha, cozinha.senha):  # Verifica a senha criptografada
-                    login(request, cozinha)
+                    login(request, cozinha,backend='main.backends.EmailAuthBackend')
                     messages.success(request, 'Login realizado com sucesso!')
                     action = RecentAction(descricao=f'Cozinha {request.user} logada com sucesso!') 
                     action.save()
@@ -177,6 +187,17 @@ def garcomDashboard(request):
         print(pedido.id, pedido.itens)  # Print the pedido id and related item_pedidos
     return render(request, 'garcomDashboard.html', {'pedidos': pedidos})
 
+
+
+@login_required
+def garcomFinalizarPedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    pedido.status = 'pronto'
+    pedido.save()
+    messages.success(request, 'Pedido finalizado com sucesso!')
+    action = RecentAction(descricao=f'Garçom {request.user} finalizou um pedido!')
+    action.save()
+    return redirect('garcomDashboard')
 
 @login_required
 def garcomNovoPedido(request):

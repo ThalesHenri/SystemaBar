@@ -38,11 +38,17 @@ class CozinhaModel(models.Model):
     usuario = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     senha = models.CharField(max_length=100)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True)
     
 
     def save(self, *args, **kwargs):
         if not self.pk:  # Verifica se é um novo registro
             self.senha = make_password(self.senha)  # Criptografa a senha
+        if kwargs.pop('update_last_login', False):
+            self.last_login = timezone.now()
+            
         super().save(*args, **kwargs)
 
     

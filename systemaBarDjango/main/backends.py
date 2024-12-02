@@ -11,8 +11,10 @@ class EmailAuthBackend(ModelBackend):
             try:
                 user = AdminModel.objects.get(email=username)
             except AdminModel.DoesNotExist:
-                return None
-
+                try:
+                    user = CozinhaModel.objects.get(email=username)
+                except CozinhaModel.DoesNotExist:    
+                    return None
         # Verifica a senha
         if user.check_password(password):
             return user
@@ -25,6 +27,9 @@ class EmailAuthBackend(ModelBackend):
             try:
                 return AdminModel.objects.get(pk=user_id)
             except AdminModel.DoesNotExist:
-                return None
+                try:
+                    return CozinhaModel.objects.get(pk=user_id)
+                except CozinhaModel.DoesNotExist:
+                    return None
                 
 

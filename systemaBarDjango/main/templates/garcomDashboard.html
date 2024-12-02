@@ -66,7 +66,7 @@
                         <td>{{ pedido.get_status_display }}</td>
                         <td>
                             {% if pedido.status != 'pronto' %}
-                                <button class="btn-primary">Finalizar</button>
+                                <a href=" {% url "garcomFinalizarPedido" pedido.id %} "><button class="btn-primary">Finalizar</button></a>
                             {% else %}
                                 <button disabled>Finalizado</button>
                             {% endif %}
