@@ -23,10 +23,12 @@ urlpatterns = [
     path('administradorDashboard/gerenciarCardapio/adicionarItemCardapio/', views.adicionarItemCardapio, name='adicionarItemCardapio'),
     path('administradorDashboard/gerenciarCardapio/editar/<int:pk>/', views.editarItemCardapio, name='editarItemCardapio'),
     path('administradorDashboard/gerenciarCardapio/deletar/<int:pk>/', views.deletarItemCardapio, name='deletarItemCardapio'),
+    path('administradorDashboard/administradorPedidos',views.administradorPedidos, name='administradorPedidos'),
     path('cozinhaLogin/', views.cozinhaLogin, name='cozinhaLogin'),
     path('cadastrarCozinhaEvent/', views.cadastrarCozinhaEvent, name='cadastrarCozinhaEvent'),
     path('cadastrarCozinha/', views.cadastrarCozinha, name='cadastrarCozinha'),
     path('cozinhaDashboard/', views.cozinhaDashboard, name='cozinhaDashboard'),
+    path('cozinhaDashboard/avancarPedido/<int:pedido_id>', views.cozinhaAvancarPedido, name='cozinhaAvancarPedido'),
     path('escolhaCadastro/', views.escolhaCadastro, name='escolhaCadastro'),
     path('garcomLogin/', views.garcomLogin, name='garcomLogin'),
     path('cadastrarGarcomEvent/', views.cadastrarGarcomEvent, name='cadastrarGarcomEvent'),
@@ -35,8 +37,11 @@ urlpatterns = [
     path('garcomDashboard/novoPedido', views.garcomNovoPedido, name='garcomNovoPedido'),
     path('garcomDashboard/novoPedidoEvent', views.garcomNovoPedidoEvent, name='garcomNovoPedidoEvent'),
     path('garcomDashboar/FinalizarPedido/<int:pedido_id>', views.garcomFinalizarPedido,name='garcomFinalizarPedido'),
+    path('clean-pedidos/', views.clean_pedidos, name='clean_pedidos'),
     path('clean-actions/', views.clean_actions, name='clean_actions'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout')] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
+
     
     
 

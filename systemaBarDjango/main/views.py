@@ -132,7 +132,11 @@ def cozinhaLogin(request):
 
 @login_required
 def cozinhaDashboard(request):
-    return render(request, 'cozinhaDashboard.html')
+    pedidos = Pedido.objects.all()
+    context = {
+        'pedidos':pedidos
+    }
+    return render(request, 'cozinhaDashboard.html',context=context)
 
 
 def cadastrarGarcom(request):
@@ -182,17 +186,23 @@ def garcomLogin(request):
 
 @login_required
 def garcomDashboard(request):
+    mesas_ocupadas_count = Pedido.objects.exclude(mesa__exact='').values('mesa').distinct().count()
     pedidos = Pedido.objects.filter(garcom=request.user).order_by('-id')
-    for pedido in pedidos:
-        print(pedido.id, pedido.itens)  # Print the pedido id and related item_pedidos
-    return render(request, 'garcomDashboard.html', {'pedidos': pedidos})
+    pedidosProntos = Pedido.objects.filter(status='pronto').count()
+    context = {
+        'mesas_ocupadas_count' : mesas_ocupadas_count,
+        'pedidos':pedidos,
+        'pedidosProntos' : pedidosProntos
+    }
+    # os itens não estão sendo adicionados aos pedidos.
+    return render(request, 'garcomDashboard.html', context=context)
 
 
 
 @login_required
 def garcomFinalizarPedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)
-    pedido.status = 'pronto'
+    pedido.status = 'finalizado'
     pedido.save()
     messages.success(request, 'Pedido finalizado com sucesso!')
     action = RecentAction(descricao=f'Garçom {request.user} finalizou um pedido!')
@@ -295,6 +305,15 @@ def deletarAdministrador(request, admin_id):
 
 
 @login_required
+def administradorPedidos(request):
+    pedidos = Pedido.objects.all()
+    context = {
+        'pedidos' : pedidos
+    }
+    return render(request,"administradorPedidos.html", context=context)
+
+
+@login_required
 def gerenciarGarcom(request):
     garcom = GarcomModel.objects.all() 
     return render(request, "gerenciarGarcom.html", {"garcom": garcom})
@@ -318,6 +337,7 @@ def editarGarcom(request, pk):
 
 @login_required
 def deletarGarcom(request, garcom_id):
+    
     garcom = get_object_or_404(GarcomModel, pk=garcom_id)
     garcom.delete()
     messages.success(request, "Garçom excluido com sucesso.")
@@ -357,6 +377,23 @@ def deletarCozinha(request, cozinha_id):
     action = RecentAction(descricao=f'O administrador {request.user} deletou um Cozinha!')
     action.save()
     return redirect("gerenciarCozinha")
+
+
+@login_required
+def cozinhaAvancarPedido(request,pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    current_status = pedido.status
+    for i, (status, _) in enumerate(Pedido.STATUS_CHOICES):
+        if status == current_status:
+            next_status_index = (i + 1) % len(Pedido.STATUS_CHOICES)
+            pedido.status = Pedido.STATUS_CHOICES[next_status_index][0]
+            break
+    pedido.save()
+    messages.success(request, 'Status do pedido alterado pela cozinha!')
+    action = RecentAction(descricao=f'Cozinha {request.user} alterou o status do pedido!')
+    action.save()
+    return redirect('cozinhaDashboard')
+
 
 
 @login_required
@@ -411,3 +448,10 @@ def deletarItemCardapio(request, pk):
 def clean_actions(request):
     RecentAction.objects.all().delete()  # Delete all RecentAction instances
     return redirect('administradorDashboard')  # Redirect to the dashboard
+
+
+@login_required
+def clean_pedidos(request):
+    Pedido.objects.all().delete()
+    action = RecentAction(descricao=f'O adm {request.user} excluiu os pedidos!')
+    return redirect('administradorDashboard')

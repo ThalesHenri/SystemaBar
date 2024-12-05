@@ -334,3 +334,14 @@ button:hover {
     align-items: center;
     position: relative; left: 80px;
 }
+
+/* Estilo do statusPedido */
+
+
+.bg-green {
+    background-color: #00ff00; /* or any other green color you prefer */
+    color: #000;
+}
+.bg-yellow {
+    background-color: #ffff00; /* or any other yellow color you prefer */
+}

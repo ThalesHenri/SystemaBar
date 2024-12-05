@@ -109,7 +109,8 @@ class Pedido(models.Model):
     STATUS_CHOICES = [
         ('criado', 'Criado'),
         ('preparando', 'Preparando'),
-        ('pronto', 'Pronto')
+        ('pronto', 'Pronto'),
+        ('finalizado', 'Finalizado')
     ]
     itens = models.ForeignKey('ItemPedido', on_delete=models.CASCADE, related_name='pedidos', null=True)
     garcom = models.ForeignKey('GarcomModel', on_delete=models.CASCADE)

@@ -1,0 +1,40 @@
+{% extends "index.html" %}
+{% block title %}Pedidos{% endblock title %}
+{% block contentTitle %}{% endblock contentTitle %}
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Nº do Pedido</th>
+            <th>Mesa</th>
+            <th>Itens</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.mesa }}</td>
+                <td>
+                    {% if pedido.itens.all %}
+                        <ul>
+                            {% for item in pedido.itens.all %}
+                                <li>{{ item.item_cardapio.nome }} - {{ item.quantidade }} x {{ item.preco }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Nenhum item adicionado</p>
+                    {% endif %}
+                </td>
+                <td class="{% if pedido.status == 'pronto' %}bg-green{% elif pedido.status == 'preparando' %}bg-yellow{% endif %}">
+                    {{ pedido.get_status_display }}
+                </td>
+                
+            </tr>
+        {% endfor %}
+    </tbody>
+</table> 
+<br><br>
+<a href="{% url "administradorDashboard" %}" class="btn-primary">Dashboard</a>
+{% endblock content %}

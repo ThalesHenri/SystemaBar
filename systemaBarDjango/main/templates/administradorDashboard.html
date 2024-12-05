@@ -12,6 +12,9 @@
             <li><a href="{% url "gerenciarGarcom" %}">Gerenciar Garçons</a></li>
             <li><a href="{% url "gerenciarCozinha" %}">Gerenciar Cozinha</a></li>
             <li><a href="{% url "gerenciarCardapio" %}">Gerenciar Cardápio</a></li>
+            <li><a href="{% url "administradorPedidos" %}">Ver Pedidos</a></li>
+            <li><a href="{% url "clean_pedidos" %}"><button class="btn-primary" onclick="return confirm('Tem certeza?')">Limpar Pedidos</button></a></li>
+        
             <li><form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button type="submit">Logout</button>
