@@ -343,5 +343,6 @@ button:hover {
     color: #000;
 }
 .bg-yellow {
-    background-color: #ffff00; /* or any other yellow color you prefer */
+    background-color: #FADA7A;
+    color: #000; /* or any other yellow color you prefer */
 }

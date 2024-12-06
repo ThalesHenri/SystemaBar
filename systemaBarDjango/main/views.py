@@ -188,7 +188,7 @@ def garcomLogin(request):
 def garcomDashboard(request):
     mesas_ocupadas_count = Pedido.objects.exclude(mesa__exact='').values('mesa').distinct().count()
     pedidos = Pedido.objects.filter(garcom=request.user).order_by('-id')
-    pedidosProntos = Pedido.objects.filter(status='pronto').count()
+    pedidosProntos = Pedido.objects.filter(status='finalizado').count()
     context = {
         'mesas_ocupadas_count' : mesas_ocupadas_count,
         'pedidos':pedidos,
@@ -196,6 +196,15 @@ def garcomDashboard(request):
     }
     # os itens não estão sendo adicionados aos pedidos.
     return render(request, 'garcomDashboard.html', context=context)
+
+
+@login_required
+def garcomCardapio(request):
+    menu = ItemCardapio.objects.all()
+    context = {
+        'menu':menu
+    }
+    return render(request,'garcomCardapio.html',context=context)
 
 
 
@@ -390,7 +399,7 @@ def cozinhaAvancarPedido(request,pedido_id):
             break
     pedido.save()
     messages.success(request, 'Status do pedido alterado pela cozinha!')
-    action = RecentAction(descricao=f'Cozinha {request.user} alterou o status do pedido!')
+    action = RecentAction(descricao=f'Cozinha alterou o status do pedido!')
     action.save()
     return redirect('cozinhaDashboard')
 

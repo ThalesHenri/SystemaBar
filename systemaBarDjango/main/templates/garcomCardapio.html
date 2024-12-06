@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{% block title %}Cardápio{% endblock title %}
+{% block contentTitle %}{% endblock contentTitle %}
+{% block content %}
+<table class="menu-table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Foto</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in menu %}
+            <tr>
+                <td>{{ item.nome }}</td>
+                <td>{{ item.preco }}</td>
+                <td><img src="{{ item.foto.url }}" class="fotoProduto"></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+<a href="{% url "garcomDashboard" %}" class="btn-primary">Dashboard</a>
+
+{% endblock content %}

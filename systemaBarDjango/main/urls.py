@@ -34,6 +34,7 @@ urlpatterns = [
     path('cadastrarGarcomEvent/', views.cadastrarGarcomEvent, name='cadastrarGarcomEvent'),
     path('cadastrarGarcom/', views.cadastrarGarcom, name='cadastrarGarcom'),
     path('garcomDashboard/', views.garcomDashboard, name='garcomDashboard'),
+    path('garcomCardapio/', views.garcomCardapio, name='garcomCardapio'),
     path('garcomDashboard/novoPedido', views.garcomNovoPedido, name='garcomNovoPedido'),
     path('garcomDashboard/novoPedidoEvent', views.garcomNovoPedidoEvent, name='garcomNovoPedidoEvent'),
     path('garcomDashboar/FinalizarPedido/<int:pedido_id>', views.garcomFinalizarPedido,name='garcomFinalizarPedido'),
